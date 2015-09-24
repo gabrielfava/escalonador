@@ -337,8 +337,7 @@ int Escalonador_Simples(node *PRONTOS, node *EXECUTANDO, node *BLOQUEADO, node *
 		tmp = PRONTOS->prox;
 		while( tmp != NULL){ 
 			 sleep(1);
-			finalizou=0;
-			 
+			finalizou=0;	 
 						tmp->cpu_feitos++;
 						tmp->situacao=1;
 						novo = transfereEntre(tmp, EXECUTANDO,PRONTOS);
@@ -372,14 +371,6 @@ int Escalonador_Simples(node *PRONTOS, node *EXECUTANDO, node *BLOQUEADO, node *
 						transfereEntre(novo, PRONTOS,EXECUTANDO);
 						listaProcessos(PRONTOS,EXECUTANDO, BLOQUEADO, FINALIZADOS);
 						sleep(2);} 
-
-
-
-
-
-			
-
-		
 		  tmp = tmp->prox;
 		  
 	}	
