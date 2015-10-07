@@ -38,8 +38,7 @@ void libera(node *PRONTOS);
 void desenha_linha1(int qtd);
 
 
-int main(void)
-{
+int main(void){
 	node *PRONTOS = (node *) malloc(sizeof(node));
 	node *BLOQUEADO = (node *) malloc(sizeof(node));
 	node *EXECUTANDO = (node *) malloc(sizeof(node));
@@ -54,16 +53,15 @@ int main(void)
 	do{
 		opt=menu();
 		opcao(PRONTOS,EXECUTANDO,BLOQUEADO, FINALIZADOS,opt);
-	}while(opt);
+	}
+	while(opt);
 
 	free(PRONTOS);
-	return 0;
-	
+	return 0;	
 }
 
-
-int menu(void)
-{	system("clear");
+int menu(void){
+	system("clear");
 	int opt;
 	printf("Escolha a opcao\n");
 	printf("0. Sair\n");
@@ -72,27 +70,22 @@ int menu(void)
 	printf("3. Adicionar Elemento na PRONTOS\n");
 	printf("4. Retirar Elemento da PRONTOS\n");
 	printf("Opcao: "); scanf("%d", &opt);
-
 	return opt;
 }
 
-void opcao(node *PRONTOS,node *EXECUTANDO, node *BLOQUEADO,node *FINALIZADOS,int op)
-{
+void opcao(node *PRONTOS,node *EXECUTANDO, node *BLOQUEADO,node *FINALIZADOS,int op){
 	node *tmp;
 	switch(op){
 		case 0:
 			libera(PRONTOS);
 			break;
-
 		case 1:
 			libera(PRONTOS);
 			inicia(PRONTOS);
 			break;
-
 		case 2:
 			listaProcessos(PRONTOS,EXECUTANDO, BLOQUEADO, FINALIZADOS);
 			break;
-
 		case 3:
 			insere(PRONTOS);
 			break;
@@ -105,27 +98,29 @@ void opcao(node *PRONTOS,node *EXECUTANDO, node *BLOQUEADO,node *FINALIZADOS,int
 				libera(tmp);
 			}
 			break;
-
 		default:
 			printf("Comando invalido\n\n");
 	}
 }
 
-void inicia(node *PRONTOS)
-{
+void inicia(node *PRONTOS){
 	PRONTOS->prox = NULL;
 	tam=0;
 }
 
 int vazia(node *PRONTOS) {
-	if(PRONTOS->prox == NULL)return 1;
+	if(PRONTOS->prox == NULL)
+		return 1;
 	else return 0;
 }
 
-node *aloca()
-{	system("clear");
+node *aloca(){
+	system("clear");
 	node *novo=(node *) malloc(sizeof(node));
-	if(!novo){ printf("Sem memoria disponivel!\n"); exit(1);}
+	if(!novo){
+		printf("Sem memoria disponivel!\n");
+		exit(1);
+	}
 	else{
 		desenha_linha1(70);
 		printf("Qtd Processos criados:  %d\n",tam);
@@ -158,15 +153,13 @@ void insere(node *PRONTOS) {
 	else{   node *tmp = PRONTOS->prox;
 		while(tmp->prox != NULL)
 			tmp = tmp->prox;
-			tmp->prox = novo;
+		tmp->prox = novo;
 	}
 	tam++;
     }
 }
 
-
-node *retira(node *PRONTOS)
-{
+node *retira(node *PRONTOS){
 	if(PRONTOS->prox == NULL){
 		printf("PRONTOS ja esta vazia\n");
 		return NULL;
@@ -176,9 +169,7 @@ node *retira(node *PRONTOS)
 		tam--;
 		return tmp;
 	}
-
 }
-
 
 void listaProcessos(node *PRONTOS,node *EXECUTANDO, node *BLOQUEADO, node *FINALIZADOS) {
 	node *tmp;	
@@ -278,8 +269,8 @@ void listaProcessos(node *PRONTOS,node *EXECUTANDO, node *BLOQUEADO, node *FINAL
 	
 }
 
-void libera(node *PRONTOS)
-{	if(!vazia(PRONTOS)){
+void libera(node *PRONTOS){
+	if(!vazia(PRONTOS)){
 		node *proxNode,
 			  *atual;
 
@@ -292,40 +283,35 @@ void libera(node *PRONTOS)
 	}
 }
 
-
-
-	void desenha_linha1(int qtd){
-		int i=0;
-		for(i=0; i<qtd; i++) 
-		printf("\u2501");	
-		printf("\n");
-	}
-
-
-
-
-	int transfereEntre(node *origem, node*destino, node *pilhaOrigem) {
-		node *novo=(node *) malloc(sizeof(node));
-		novo->pid = origem->pid;
-		strcpy(novo->nome,origem->nome);
-		novo->io = origem->io;
-		novo->io_feitos = origem->io_feitos;
-		novo->cpu_feitos = origem->cpu_feitos;
-		novo->cpu = origem->cpu;
-		novo->prioridade = origem->prioridade;	
-		novo->situacao = origem->situacao;	
-		novo->prox = NULL;
-		if(vazia(destino))
-		destino->prox=novo;
-		else{   node *tmp = destino->prox;
-		while(tmp->prox != NULL)
-			tmp = tmp->prox;
-			tmp->prox = novo;
-		}
-		retira(pilhaOrigem);
-		return novo;
+void desenha_linha1(int qtd){
+	int i=0;
+	for(i=0; i<qtd; i++) 
+	printf("\u2501");	
+	printf("\n");
 }
 
+int transfereEntre(node *origem, node*destino, node *pilhaOrigem) {
+	node *novo=(node *) malloc(sizeof(node));
+	novo->pid = origem->pid;
+	strcpy(novo->nome,origem->nome);
+	novo->io = origem->io;
+	novo->io_feitos = origem->io_feitos;
+	novo->cpu_feitos = origem->cpu_feitos;
+	novo->cpu = origem->cpu;
+	novo->prioridade = origem->prioridade;	
+	novo->situacao = origem->situacao;	
+	novo->prox = NULL;
+	if(vazia(destino))
+	destino->prox=novo;
+	else{
+		node *tmp = destino->prox;
+		while(tmp->prox != NULL)
+			tmp = tmp->prox;
+		tmp->prox = novo;
+	}
+	retira(pilhaOrigem);
+	return novo;
+}
 
 int Escalonador_Simples(node *PRONTOS, node *EXECUTANDO, node *BLOQUEADO, node *FINALIZADOS) {
 	int i, j,k, finalizou;
@@ -336,45 +322,43 @@ int Escalonador_Simples(node *PRONTOS, node *EXECUTANDO, node *BLOQUEADO, node *
 		listaProcessos(PRONTOS,EXECUTANDO, BLOQUEADO, FINALIZADOS);
 		tmp = PRONTOS->prox;
 		while( tmp != NULL){ 
-			 sleep(1);
+			sleep(1);
 			finalizou=0;	 
-						tmp->cpu_feitos++;
-						tmp->situacao=1;
-						novo = transfereEntre(tmp, EXECUTANDO,PRONTOS);
-						listaProcessos(PRONTOS,EXECUTANDO, BLOQUEADO, FINALIZADOS);
-						sleep(2);
-
-			 	   	if(novo->io_feitos==novo->io && novo->cpu_feitos==novo->cpu){ 
-							novo->situacao=3;
-							novo = transfereEntre(novo, FINALIZADOS,EXECUTANDO);
-							listaProcessos(PRONTOS,EXECUTANDO, BLOQUEADO, FINALIZADOS);
-							sleep(2);
-							qtprontos++;
-							finalizou=1;
-					}
-				
-			else if(novo->io_feitos<novo->io && finalizou==0) {   
+			tmp->cpu_feitos++;
+			tmp->situacao=1;
+			novo = transfereEntre(tmp, EXECUTANDO,PRONTOS);
+			listaProcessos(PRONTOS,EXECUTANDO, BLOQUEADO, FINALIZADOS);
+			sleep(2);
+	 	   	if(novo->io_feitos==novo->io && novo->cpu_feitos==novo->cpu){ 
+				novo->situacao=3;
+				novo = transfereEntre(novo, FINALIZADOS,EXECUTANDO);
+				listaProcessos(PRONTOS,EXECUTANDO, BLOQUEADO, FINALIZADOS);
+				sleep(2);
+				qtprontos++;
+				finalizou=1;
+			}
+			if(novo->io_feitos<novo->io && finalizou==0) {
 				if(!vazia(BLOQUEADO)){	tmp2 = BLOQUEADO->prox;
-							tmp2->situacao=0;
-							transfereEntre(tmp2, PRONTOS,BLOQUEADO);
-							listaProcessos(PRONTOS,EXECUTANDO, BLOQUEADO, FINALIZADOS);
-							sleep(1);
-					}
-						novo->io_feitos++;
-						novo->situacao=2;
-						novo = transfereEntre(novo, BLOQUEADO,EXECUTANDO);
-						listaProcessos(PRONTOS,EXECUTANDO, BLOQUEADO, FINALIZADOS);
-						sleep(2);
+					tmp2->situacao=0;
+					transfereEntre(tmp2, PRONTOS,BLOQUEADO);
+					listaProcessos(PRONTOS,EXECUTANDO, BLOQUEADO, FINALIZADOS);
+					sleep(1);
 				}
+				novo->io_feitos++;
+				novo->situacao=2;
+				novo = transfereEntre(novo, BLOQUEADO,EXECUTANDO);
+				listaProcessos(PRONTOS,EXECUTANDO, BLOQUEADO, FINALIZADOS);
+				sleep(2);
+			}
 			else {			
-						novo->situacao=0;
-						transfereEntre(novo, PRONTOS,EXECUTANDO);
-						listaProcessos(PRONTOS,EXECUTANDO, BLOQUEADO, FINALIZADOS);
-						sleep(2);} 
-		  tmp = tmp->prox;
-		  
-	}	
-    }
+				novo->situacao=0;
+				transfereEntre(novo, PRONTOS,EXECUTANDO);
+				listaProcessos(PRONTOS,EXECUTANDO, BLOQUEADO, FINALIZADOS);
+				sleep(2);
+			}			
+			tmp = tmp->prox;		  
+		}	
+	}
 
 return 0;
 }
