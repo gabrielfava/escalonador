@@ -21,6 +21,7 @@ char finalizado[] = "\x1b[34mFinalizado\x1b[0m";
 int qtprontos;
 
 //situ=0  aguardando, 1=executando, 2=bloqueado, 3=finalizado
+// um adendo pessoal, obrigado pela atencao!
 
 typedef struct Node node;
 int seed_pid = 102;
